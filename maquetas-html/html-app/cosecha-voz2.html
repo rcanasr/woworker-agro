@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Woworker · Cosecha Voz</title>
+  <link rel="stylesheet" href="assets/css/woworker.css">
+  
+<style>
+  :root { --cfg-dur: 980ms; --cfg-ease: cubic-bezier(.2,.7,.2,1); }
+  .config-ingreso {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height var(--cfg-dur) var(--cfg-ease), opacity 600ms var(--cfg-ease);
+    will-change: max-height, opacity;
+  }
+  .config-ingreso.is-open { opacity: 1; }
+</style>
+
+
+<style>
+  .cfg-caret {
+    display: inline-block;
+    margin-left: .5rem;
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid currentColor; /* pointing down */
+    transition: transform 220ms ease;
+    vertical-align: middle;
+  }
+  .is-open-btn .cfg-caret {
+    transform: rotate(180deg); /* pointing up when open */
+  }
+  /* Optional: when open, allow background override through .is-open-btn */
+  .is-open-btn { /* no color by default; user can style */ }
+  /* Select2 width fix to match full input width */
+  .select2-container { width: 100% !important; }
+</style>
+
+</head>
+<body class="safe">
+<div class="wrapper">
+  <div class="phone">
+
+      <header class="header">
+        <div class="header-inner">
+          <div class="brand">
+            <img src="assets/svg/logo-blanco-horizontal.svg" class="logo-header">
+            <img src="assets/svg/user.svg">
+          </div>
+        </div>
+      </header>
+
+    <main class="content">
+    <div class="ico-title">
+      <img src="assets/svg/ico-cosecha.svg" alt="">
+      <h2>INGRESO DE <strong>COSECHA</strong></h2>
+      
+    </div>
+    <div class="memoria.ingreso">
+      <button class="btn">Configuración Diaria</button>
+      <div class="config-ingreso">
+        <form class="form" action="#" method="get">
+        <input type="date" class="input" placeholder="Fecha">
+        <select class="input" placeholder="Selecciona Fruta">
+          <option>Frutilla</option>
+          <option>Frambuesa</option>
+        </select>
+        <select class="input" placeholder="Selecciona Punto de Cosecha">
+          <option>Punto de cosecha 1</option>
+          <option>Punto de cosecha 2</option>
+        </select>
+        <select class="input" placeholder="Selecciona Trabajador">
+          <option>Trabajador 1</option>
+          <option>Trabajador 2</option>
+        </select>
+        <button class="btn">Guardar</button>
+        <button type="button" class="btn btn-secondary">Cancelar</button>
+      </form>
+      </div>      
+      <div class="sel-diarias">
+        <p class="mem-sel">14-10-2025 <a href="#">x</a></p>
+        <p class="mem-sel">Frutilla <a href="#">x</a></p>
+        <p class="mem-sel">Punto de Cosecha 1 <a href="#">x</a></12:52 16-10-2025p>
+      </div>
+    </div>
+      <form class="form" action="enviado.html">
+        <textarea></textarea>
+        <button class="btn" type="submit">ENVIAR</button>
+      </form>
+    </main>
+    <div class="bottom-bar">
+      <div class="home">
+        <a href="home.html"><img src="assets/svg/ico-home.svg"> IR AL HOME</a>
+      </div>
+    
+    
+      <div class="mic-default"><a href="#"><img src="assets/svg/btn-mic.svg"></a></div>
+</div>
+
+  </div>
+</div>
+
+<!-- Injected: Toggle logic for Configuración Diaria -->
+<script>
+(function(){
+  function findToggleBtn() {
+    const btns = Array.from(document.querySelectorAll('button, .btn, [role="button"], input[type="button"], input[type="submit"]'));
+    const matches = btns.filter(el => {
+      const txt = (el.textContent || el.value || '').trim().toLowerCase();
+      return txt === 'configuración diaria' || txt === 'configuracion diaria';
+    });
+    return matches[0] || null;
+  }
+  function findGuardarBtn(panel) {
+    if (!panel) return null;
+    const els = Array.from(panel.querySelectorAll('button, input[type="button"], input[type="submit"]'));
+    const m = els.find(el => {
+      const txt = (el.textContent || el.value || '').trim().toLowerCase();
+      return txt === 'guardar';
+    });
+    return m || null;
+  }
+
+  const panel = document.querySelector('.config-ingreso');
+  const toggleBtn = findToggleBtn();
+  const guardarBtn = findGuardarBtn(panel);
+
+  if (!panel || !toggleBtn) return;
+
+  const TXT_OPEN = 'Cerrar sin Cambios';
+  const TXT_CLOSED = 'Configuración Diaria';
+
+  // A11y state
+  toggleBtn.setAttribute('aria-controls', 'configPanel');
+  panel.id = panel.id || 'configPanel';
+  toggleBtn.setAttribute('aria-expanded', 'false');
+
+  function openPanel(){
+    panel.classList.add('is-open');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    toggleBtn.setAttribute('aria-expanded','true');
+    if ('textContent' in toggleBtn) // removed text change per user request else if ('value' in toggleBtn) // removed text change per user request
+    const onEnd = (e)=>{
+      if (e.propertyName === 'max-height'){
+        panel.style.maxHeight = 'none';
+        panel.removeEventListener('transitionend', onEnd);
+      }
+    };
+    panel.addEventListener('transitionend', onEnd);
+  }
+  function closePanel(){
+    // Fix height to current for smooth collapse
+    const current = panel.scrollHeight;
+    panel.style.maxHeight = current + 'px';
+    panel.getBoundingClientRect(); // reflow
+    panel.style.maxHeight = '0px';
+    panel.classList.remove('is-open');
+    toggleBtn.setAttribute('aria-expanded','false');
+    if ('textContent' in toggleBtn) // removed text change per user request else if ('value' in toggleBtn) // removed text change per user request
+  }
+  function togglePanel(){
+    const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closePanel(); else openPanel();
+  }
+
+  toggleBtn.addEventListener('click', (e)=>{ e.preventDefault(); togglePanel(); });
+  if (guardarBtn) guardarBtn.addEventListener('click', (e)=>{ /* Simulate save */ closePanel(); });
+
+  // Optional: ESC to close
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && toggleBtn.getAttribute('aria-expanded') === 'true') closePanel();
+  });
+
+  // Keep auto height while resized open
+  window.addEventListener('resize', ()=>{
+    if (toggleBtn.getAttribute('aria-expanded') === 'true' && panel.style.maxHeight === 'none'){
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      requestAnimationFrame(()=>{ panel.style.maxHeight = 'none'; });
+    }
+  });
+})();
+</script>
+
+
+<!-- Injected v2: Toggle logic + caret + Select2 init -->
+<script>
+(function(){
+  function findToggleBtn() {
+    const btns = Array.from(document.querySelectorAll('button, .btn, [role="button"], input[type="button"], input[type="submit"]'));
+    const matches = btns.filter(el => {
+      const txt = (el.textContent || el.value || '').trim().toLowerCase();
+      return txt === 'configuración diaria' || txt === 'configuracion diaria';
+    });
+    return matches[0] || null;
+  }
+  function findGuardarBtn(panel) {
+    if (!panel) return null;
+    const els = Array.from(panel.querySelectorAll('button, input[type="button"], input[type="submit"]'));
+    return els.find(el => ((el.textContent || el.value || '').trim().toLowerCase() === 'guardar')) || null;
+  }
+  function ensureCancelarBtn(panel, closeHandler){
+    const els = Array.from(panel.querySelectorAll('button, input[type="button"], input[type="submit"]'));
+    const hasCancelar = els.some(el => ((el.textContent || el.value || '').trim().toLowerCase() === 'cancelar'));
+    if (!hasCancelar){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn btn-secondary';
+      btn.textContent = 'Cancelar';
+      // try to place after Guardar if present
+      const guardar = findGuardarBtn(panel);
+      if (guardar && guardar.parentElement){
+        guardar.parentElement.appendChild(btn);
+      } else {
+        panel.appendChild(btn);
+      }
+      btn.addEventListener('click', closeHandler);
+      return btn;
+    } else {
+      // bind existing cancelar to close
+      const cancelar = els.find(el => ((el.textContent || el.value || '').trim().toLowerCase() === 'cancelar'));
+      if (cancelar && closeHandler) cancelar.addEventListener('click', closeHandler);
+      return cancelar;
+    }
+  }
+
+  const panel = document.querySelector('.config-ingreso');
+  const toggleBtn = findToggleBtn();
+  const guardarBtn = findGuardarBtn(panel);
+
+  if (!panel || !toggleBtn) return;
+
+  // Add caret if not present
+  if (!toggleBtn.querySelector('.cfg-caret')){
+    const caret = document.createElement('span');
+    caret.className = 'cfg-caret';
+    caret.setAttribute('aria-hidden','true');
+    toggleBtn.appendChild(caret);
+  }
+
+  // A11y state
+  toggleBtn.setAttribute('aria-controls', 'configPanel');
+  if (!panel.id) panel.id = 'configPanel';
+  toggleBtn.setAttribute('aria-expanded', 'false');
+
+  function openPanel(){
+    panel.classList.add('is-open');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    toggleBtn.setAttribute('aria-expanded','true');
+    toggleBtn.classList.add('is-open-btn'); // class for background/color changes
+    const onEnd = (e)=>{
+      if (e.propertyName === 'max-height'){
+        panel.style.maxHeight = 'none';
+        panel.removeEventListener('transitionend', onEnd);
+      }
+    };
+    panel.addEventListener('transitionend', onEnd);
+  }
+  function closePanel(){
+    const current = panel.scrollHeight;
+    panel.style.maxHeight = current + 'px';
+    panel.getBoundingClientRect(); // reflow
+    panel.style.maxHeight = '0px';
+    panel.classList.remove('is-open');
+    toggleBtn.setAttribute('aria-expanded','false');
+    toggleBtn.classList.remove('is-open-btn');
+  }
+  function togglePanel(){
+    const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closePanel(); else openPanel();
+  }
+
+  toggleBtn.addEventListener('click', (e)=>{ e.preventDefault(); togglePanel(); });
+  if (guardarBtn) guardarBtn.addEventListener('click', (e)=>{ closePanel(); });
+  ensureCancelarBtn(panel, closePanel);
+
+  // ESC closes if open
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && toggleBtn.getAttribute('aria-expanded') === 'true') closePanel();
+  });
+
+  // Resize handling
+  window.addEventListener('resize', ()=>{
+    if (toggleBtn.getAttribute('aria-expanded') === 'true' && panel.style.maxHeight === 'none'){
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      requestAnimationFrame(()=>{ panel.style.maxHeight = 'none'; });
+    }
+  });
+
+  // ---- Select2 Init ----
+  // Load jQuery and Select2 if not present (CDN)
+  function loadScript(src){ return new Promise((res, rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+  function loadCss(href){ const l=document.createElement('link'); l.rel='stylesheet'; l.href=href; document.head.appendChild(l); }
+  function hasJQ(){ return !!window.jQuery; }
+  function hasSelect2(){ return !!(window.jQuery && jQuery.fn && jQuery.fn.select2); }
+
+  function initSelect2(){
+    try{
+      const candidates = Array.from(document.querySelectorAll('select')).filter(sel=>{
+        const id = (sel.id||'').toLowerCase();
+        const nm = (sel.name||'').toLowerCase();
+        const cls = (sel.className||'').toLowerCase();
+        // also check associated label text
+        let labelTxt = '';
+        if (sel.id){
+          const lab = document.querySelector('label[for="'+sel.id+'"]');
+          if (lab) labelTxt = (lab.textContent||'').toLowerCase();
+        }
+        return id.includes('trabajador') || nm.includes('trabajador') || cls.includes('trabajador') || labelTxt.includes('trabajador');
+      });
+      candidates.forEach(sel => jQuery(sel).select2({ width: '100%', placeholder: 'Selecciona trabajador(es)', allowClear: true }));
+    } catch(e){ /* ignore */ }
+  }
+
+  (async function ensureSelect2(){
+    loadCss('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+    if (!hasJQ()){
+      await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
+    }
+    if (!hasSelect2()){
+      await loadScript('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js');
+    }
+    if (hasSelect2()){ initSelect2(); }
+  })();
+})();
+</script>
+
+</body>
+</html>

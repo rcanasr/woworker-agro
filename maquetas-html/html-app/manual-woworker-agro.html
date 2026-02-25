@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual woWorker Agro</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,sans-serif;line-height:1.55;color:#101828;margin:0;background:#fff;}
+  header{padding:32px 24px;background:#F8FAFC;border-bottom:1px solid #E5E7EB;}
+  h1{margin:0 0 8px;font-size:28px}
+  .badge{display:inline-block;background:#DCFCE7;color:#065F46;border:1px solid #86EFAC;padding:2px 8px;border-radius:999px;font-size:12px;margin-left:8px}
+  main{padding:24px;max-width:1000px;margin:0 auto}
+  h2{margin-top:40px;font-size:22px}
+  h3{margin-top:24px;font-size:18px}
+  p{margin:10px 0}
+  .toc{background:#F1F5F9;border:1px solid #E2E8F0;border-radius:12px;padding:16px}
+  .toc a{display:block;color:#0F766E;text-decoration:none;margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0 24px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #E5E7EB}
+  th,td{padding:10px 12px;border-bottom:1px solid #E5E7EB;vertical-align:top}
+  th{background:#F8FAFC;text-align:left;width:32%}
+  tr:last-child td{border-bottom:none}
+  .examples{background:#FAFAF9;border:1px solid #E7E5E4;border-radius:12px;padding:12px}
+  .examples li{margin:6px 0}
+  .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:#EEF2FF;color:#3730A3;border:1px solid #C7D2FE;margin-right:6px}
+  .footer{margin-top:40px;color:#475569;font-size:13px}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Manual woWorker Agro <span class="badge">Guía para usuarios</span></h1>
+    <p>woWorker Agro es una app web que reemplaza papel, lápiz y planillas sueltas por <strong>cuadernos digitales</strong> fáciles de usar, inspirados en WhatsApp. Puedes escribir mensajes sencillos o mandar audios (la app los convierte a texto) para <strong>registrar labores, cosechas, asistencia, aplicaciones, transporte, plagas, roedores y más</strong>. Todo queda guardado, ordenado y listo para consultar.</p>
+  </header>
+  <main>
+    <section class="toc">
+      <strong>Contenido</strong>
+      <a href="#cuaderno-cosechas">Cuaderno de Cosechas</a>
+      <a href="#cuaderno-asistencia">Cuaderno de Asistencia</a>
+      <a href="#cuaderno-aplicaciones">Cuaderno de Aplicaciones</a>
+      <a href="#cuaderno-plagas">Cuaderno de Control de Plagas</a>
+      <a href="#cuaderno-roedores">Cuaderno de Control de Roedores</a>
+      <a href="#cuaderno-transporte">Cuaderno de Control de Transporte</a>
+      <a href="#cuaderno-valores-cosecha">Cuaderno de Valores de Cosecha</a>
+      <a href="#cuaderno-frutas">Cuaderno de Frutas</a>
+      <a href="#cuaderno-cuarteles">Cuaderno de Cuarteles</a>
+      <a href="#cuaderno-vehiculos">Cuaderno de Vehículos</a>
+      <a href="#cuaderno-bandejas">Cuaderno de Bandejas</a>
+      <a href="#administracion">Administración (Cuenta y Usuarios)</a>
+    </section>
+
+    <!-- Cuaderno de Cosechas -->
+    <section id="cuaderno-cosechas">
+      <h2>Cuaderno de Cosechas</h2>
+      <p>Registra cada cosecha: qué fruta, cuándo, cuánto se recolectó, en qué cuartel y quién cosechó. Ideal para sacar reportes por fechas, fruta o sectores y calcular productividad.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de cosecha.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta a la que pertenece el registro.</td></tr>
+        <tr><td>Fecha de cosecha</td><td>Día en que se realizó la cosecha.</td></tr>
+        <tr><td>Fruta</td><td>Fruta cosechada (por ejemplo: manzana, pera).</td></tr>
+        <tr><td>Cantidad</td><td>Cantidad cosechada (kg, bandejas, etc.).</td></tr>
+        <tr><td>Trabajador</td><td>Persona que estuvo cosechando.</td></tr>
+        <tr><td>Cuartel</td><td>Zona del campo donde se cosechó.</td></tr>
+        <tr><td>Valor de cosecha vigente</td><td>Tarifa aplicable al pago por cosecha (si corresponde).</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales (calidad, condiciones, etc.).</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Muéstrame las cosechas de <span class="tag">manzana</span> de la <span class="tag">semana pasada</span>.”</li>
+          <li>“¿Cuánto se cosechó en el <span class="tag">Cuartel Norte</span> en <span class="tag">octubre</span>?”</li>
+          <li>“Lista por trabajador la <span class="tag">cantidad</span> cosechada entre <span class="tag">01/03</span> y <span class="tag">15/03</span>.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Asistencia -->
+    <section id="cuaderno-asistencia">
+      <h2>Cuaderno de Asistencia</h2>
+      <p>Lleva el control diario de asistencia, horas trabajadas, actividad realizada y sector. Útil para planillas y análisis de productividad por persona.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de asistencia.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta a la que pertenece el registro.</td></tr>
+        <tr><td>Fecha</td><td>Día de la asistencia.</td></tr>
+        <tr><td>Trabajador</td><td>Persona registrada.</td></tr>
+        <tr><td>Hora de entrada</td><td>Hora en que comenzó su jornada.</td></tr>
+        <tr><td>Hora de salida</td><td>Hora en que terminó su jornada.</td></tr>
+        <tr><td>Horas trabajadas</td><td>Total de horas del día.</td></tr>
+        <tr><td>Actividad</td><td>Actividad principal realizada.</td></tr>
+        <tr><td>Sector</td><td>Sector donde trabajó.</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales (reemplazos, permisos, etc.).</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“¿Quiénes asistieron el <span class="tag">15/10</span> y cuántas <span class="tag">horas</span> trabajaron?”</li>
+          <li>“Listado de <span class="tag">actividades</span> por trabajador de esta <span class="tag">semana</span>.”</li>
+          <li>“Asistencia en el <span class="tag">Sector Sur</span> durante <span class="tag">noviembre</span>.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Aplicaciones -->
+    <section id="cuaderno-aplicaciones">
+      <h2>Cuaderno de Aplicaciones</h2>
+      <p>Registra aplicaciones de productos (pesticidas, abonos, fertilizantes): fecha, sector, tipo y nombre, dosis, responsable y notas.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de aplicación.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta a la que pertenece el registro.</td></tr>
+        <tr><td>Fecha</td><td>Fecha de la aplicación.</td></tr>
+        <tr><td>Sector</td><td>Sector o área del campo.</td></tr>
+        <tr><td>Tipo de producto</td><td>Ej.: pesticida, abono, fertilizante.</td></tr>
+        <tr><td>Nombre del producto</td><td>Nombre comercial del producto.</td></tr>
+        <tr><td>Dosis</td><td>Dosis aplicada.</td></tr>
+        <tr><td>Responsable</td><td>Persona que realizó la aplicación.</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+        <tr><td>Cuartel</td><td>Zona/cuarto del campo.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Aplicaciones de <span class="tag">fertilizante</span> en <span class="tag">octubre</span>.”</li>
+          <li>“¿Qué <span class="tag">dosis</span> usamos con <span class="tag">[Producto]</span> en el <span class="tag">Cuartel A</span>?”</li>
+          <li>“Resumen por <span class="tag">responsable</span> el último <span class="tag">mes</span>.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Control de Plagas -->
+    <section id="cuaderno-plagas">
+      <h2>Cuaderno de Control de Plagas</h2>
+      <p>Monitorea y registra acciones contra plagas y enfermedades: método usado, hallazgos y observaciones, por fecha y sector.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de control de plagas.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Fecha</td><td>Fecha del control.</td></tr>
+        <tr><td>Sector</td><td>Área donde se realizó el control.</td></tr>
+        <tr><td>Método de control</td><td>Método utilizado (trampas, químicos, biológicos, etc.).</td></tr>
+        <tr><td>Hallazgos</td><td>Lo encontrado durante el control (niveles de plaga, focos, etc.).</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+        <tr><td>Cuartel</td><td>Zona/cuarto del campo.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Controles de plagas del <span class="tag">Sector Este</span> la <span class="tag">última semana</span>.”</li>
+          <li>“Hallazgos más comunes en <span class="tag">noviembre</span>.”</li>
+          <li>“¿Qué <span class="tag">métodos</span> usamos con mejores resultados?”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Control de Roedores -->
+    <section id="cuaderno-roedores">
+      <h2>Cuaderno de Control de Roedores</h2>
+      <p>Registro de monitoreo y control de roedores por fecha, sector, método, hallazgos y observaciones.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de control de roedores.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Fecha de control</td><td>Fecha en que se realizó el control.</td></tr>
+        <tr><td>Sector</td><td>Área del campo donde se realizó el control.</td></tr>
+        <tr><td>Método de control</td><td>Trampas, cebos, repelentes, etc.</td></tr>
+        <tr><td>Hallazgos</td><td>Lo encontrado durante el control.</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+        <tr><td>Cuartel</td><td>Zona/cuarto del campo.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Controles de roedores del <span class="tag">Sector Oeste</span> en <span class="tag">septiembre</span>.”</li>
+          <li>“¿Qué <span class="tag">métodos</span> se usaron la <span class="tag">última quincena</span>?”</li>
+          <li>“Lista de <span class="tag">hallazgos</span> por sector.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Control de Transporte -->
+    <section id="cuaderno-transporte">
+      <h2>Cuaderno de Control de Transporte</h2>
+      <p>Sigue los viajes: vehículo, conductor, origen, destino, carga, pesos, kilómetros y combustible.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID evento</td><td>ID único del registro de transporte.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Fecha</td><td>Fecha del transporte.</td></tr>
+        <tr><td>Vehículo</td><td>Vehículo utilizado.</td></tr>
+        <tr><td>Conductor</td><td>Nombre del conductor.</td></tr>
+        <tr><td>Origen</td><td>Punto de salida.</td></tr>
+        <tr><td>Destino</td><td>Punto de llegada.</td></tr>
+        <tr><td>Carga</td><td>Descripción de lo transportado.</td></tr>
+        <tr><td>Peso salida</td><td>Peso al salir (kg).</td></tr>
+        <tr><td>Peso llegada</td><td>Peso al llegar (kg).</td></tr>
+        <tr><td>Kilómetros recorridos</td><td>Total recorrido.</td></tr>
+        <tr><td>Combustible consumido</td><td>Litros consumidos.</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Viajes del <span class="tag">camión 1</span> en la <span class="tag">última semana</span>.”</li>
+          <li>“¿Cuántos <span class="tag">km</span> y <span class="tag">litros</span> consumimos en <span class="tag">abril</span>?”</li>
+          <li>“Diferencia de <span class="tag">peso</span> salida vs llegada por viaje.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Valores de Cosecha -->
+    <section id="cuaderno-valores-cosecha">
+      <h2>Cuaderno de Valores de Cosecha</h2>
+      <p>Define precios y valores vigentes por fruta y períodos; opcionalmente por trabajador.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID valor</td><td>ID único del registro de valores de cosecha.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Fruta</td><td>Fruta a la que aplica el valor.</td></tr>
+        <tr><td>Trabajador (opcional)</td><td>Si aplica solo a un trabajador en particular.</td></tr>
+        <tr><td>Vigencia desde</td><td>Fecha de inicio de vigencia.</td></tr>
+        <tr><td>Vigencia hasta</td><td>Fecha de término de vigencia.</td></tr>
+        <tr><td>Precio por unidad</td><td>Precio por kilogramo/producto.</td></tr>
+        <tr><td>Categoría de pago</td><td>Clasificación del pago para cosecha.</td></tr>
+        <tr><td>Observaciones</td><td>Notas adicionales.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio del registro.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“¿Cuál es el <span class="tag">precio</span> vigente para <span class="tag">palta</span>?”</li>
+          <li>“Valores por <span class="tag">fruta</span> entre <span class="tag">01/01</span> y <span class="tag">31/03</span>.”</li>
+          <li>“¿Hay valores especiales por <span class="tag">trabajador</span>?”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Frutas -->
+    <section id="cuaderno-frutas">
+      <h2>Cuaderno de Frutas</h2>
+      <p>Lista de frutas disponibles para registrar en cosechas y aplicaciones.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID fruta</td><td>ID único del registro de fruta.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Nombre de la fruta</td><td>Nombre (ej.: manzana, uva, palta).</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Lista de <span class="tag">frutas</span> disponibles.”</li>
+          <li>“¿Cuándo se actualizó la fruta <span class="tag">[Nombre]</span>?”</li>
+          <li>“¿Qué frutas tienen registros de <span class="tag">cosecha</span> este mes?”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Cuarteles -->
+    <section id="cuaderno-cuarteles">
+      <h2>Cuaderno de Cuarteles</h2>
+      <p>Define y describe los cuarteles o sectores del campo para ordenar la información.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID cuartel</td><td>ID único del cuartel.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del registro.</td></tr>
+        <tr><td>Nombre del cuartel</td><td>Nombre o identificación.</td></tr>
+        <tr><td>Observaciones</td><td>Notas del cuartel.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Lista de <span class="tag">cuarteles</span>.”</li>
+          <li>“¿Qué registros hay en el <span class="tag">Cuartel Central</span>?”</li>
+          <li>“Resumen por <span class="tag">cuartel</span> del último trimestre.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Vehículos -->
+    <section id="cuaderno-vehiculos">
+      <h2>Cuaderno de Vehículos</h2>
+      <p>Inventario de vehículos disponibles para transporte y labores en el campo.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID vehículo</td><td>ID único del vehículo.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta.</td></tr>
+        <tr><td>Nombre/Identificación</td><td>Nombre o código del vehículo.</td></tr>
+        <tr><td>Observaciones</td><td>Notas sobre el vehículo.</td></tr>
+        <tr><td>Última actualización</td><td>Fecha y hora del último cambio.</td></tr>
+        <tr><td>Actualizado por</td><td>Usuario que hizo el último cambio.</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Lista de <span class="tag">vehículos</span>.”</li>
+          <li>“¿Qué viajes hizo el <span class="tag">Tractor JD</span> este mes?”</li>
+          <li>“Resumen de uso por <span class="tag">vehículo</span>.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cuaderno de Bandejas -->
+    <section id="cuaderno-bandejas">
+      <h2>Cuaderno de Bandejas</h2>
+      <p>Listado de tipos de bandejas y su peso para estandarizar registros de cosecha y transporte.</p>
+      <h3>Campos</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID bandeja</td><td>ID único del tipo de bandeja.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta.</td></tr>
+        <tr><td>Nombre de la bandeja</td><td>Descripción (ej.: “Bandeja 1.5 kg”).</td></tr>
+        <tr><td>Peso</td><td>Peso de la bandeja (en kg).</td></tr>
+      </table>
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Lista de <span class="tag">bandejas</span> y pesos.”</li>
+          <li>“¿Qué bandeja usamos en la <span class="tag">cosecha</span> de ayer?”</li>
+          <li>“Promedio de <span class="tag">peso</span> por bandeja.”</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Administración -->
+    <section id="administracion">
+      <h2>Administración (Cuenta y Usuarios)</h2>
+      <p>Estas tablas permiten identificar a qué cuenta pertenecen los registros y quiénes son los usuarios.</p>
+
+      <h3>Cuenta</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID de cuenta</td><td>Identificador de la cuenta.</td></tr>
+        <tr><td>Nombre de cuenta</td><td>Nombre visible de la cuenta.</td></tr>
+      </table>
+
+      <h3>Usuarios</h3>
+      <table>
+        <tr><th>Campo</th><th>Contenido</th></tr>
+        <tr><td>ID usuario</td><td>Identificador del usuario.</td></tr>
+        <tr><td>Cuenta</td><td>ID de la cuenta del usuario.</td></tr>
+        <tr><td>Nombres</td><td>Nombre del usuario.</td></tr>
+        <tr><td>Apellidos</td><td>Apellido del usuario.</td></tr>
+        <tr><td>Email</td><td>Correo del usuario.</td></tr>
+        <tr><td>Contraseña (en sistema)</td><td>Clave del usuario (guardada por el sistema).</td></tr>
+        <tr><td>Estado</td><td>Estado del usuario.</td></tr>
+        <tr><td>Permiso de escritura</td><td>Puede registrar datos (sí/no).</td></tr>
+        <tr><td>Lectura de toda la cuenta</td><td>Puede leer todos los registros o solo los propios.</td></tr>
+        <tr><td>Rol</td><td>Usuario, supervisor o trabajador.</td></tr>
+      </table>
+
+      <div class="examples">
+        <strong>¿Qué puedes preguntar?</strong>
+        <ul>
+          <li>“Lista de <span class="tag">usuarios</span> con permiso de <span class="tag">escritura</span>.”</li>
+          <li>“Usuarios con rol <span class="tag">supervisor</span>.”</li>
+          <li>“¿Qué <span class="tag">cuentas</span> tengo disponibles?”</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">Esta guía resume, en lenguaje simple, la estructura de datos de woWorker Agro para ayudarte a registrar y consultar información sin complicaciones.</p>
+  </main>
+</body>
+</html>
